@@ -15,9 +15,12 @@ pub fn current_working_dir() -> PathBuf {
 }
 
 pub mod path {
-    use std::{borrow::Cow, path::{Component, Path, PathBuf}};
-    use etcetera::home_dir;
     use crate::utils::current_working_dir;
+    use etcetera::home_dir;
+    use std::{
+        borrow::Cow,
+        path::{Component, Path, PathBuf},
+    };
 
     /// Expands tilde `~` into users home directory if available, otherwise returns the path
     /// unchanged. The tilde will only be expanded when present as the first component of the path
@@ -414,4 +417,8 @@ pub fn ensure_parent_dir(path: &Path) {
             std::fs::create_dir_all(parent).ok();
         }
     }
+}
+
+pub fn uri_to_path(uri: &Url) -> PathBuf {
+    uri.to_file_path().ok().unwrap_or_default()
 }
